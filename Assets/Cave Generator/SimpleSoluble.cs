@@ -7,12 +7,8 @@ public class SimpleSoluble : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.tag == "Player") {
-            // CaveGrid.I.SetPos(CaveGrid.Mod.Cave(GridPos.FromWorld(transform.position)));
-            // GameObject.Destroy(gameObject);
-
             foreach (GridPos pos in positions) {
-                CaveGrid.I.soft[pos] = false;
-                CaveGrid.I.SetPos(CaveGrid.Mod.Cave(pos));
+                MaterialGrid.I.SetPos(GridMod.Cave(pos));
             }
         }
     }

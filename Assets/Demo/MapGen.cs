@@ -16,8 +16,8 @@ public class MapGen : MonoBehaviour {
     void Start() {
         prevLoc = GridPos.zero;
         nextLoc = GridPos.zero;
-        CaveGrid.Biome.Next(GridPos.zero, 1);
-        CaveGrid.I.SetPos(CaveGrid.Mod.Cave(nextLoc));
+        MaterialGrid.Biome.Next(GridPos.zero, 1);
+        MaterialGrid.I.SetPos(GridMod.Cave(nextLoc));
         countdownChangeBiome = changeBiomeEvery;
     }
 
@@ -28,7 +28,7 @@ public class MapGen : MonoBehaviour {
             progress -= 1;
             prevLoc = nextLoc;
             nextLoc = nextLoc.RandomDeviation();
-            CaveGrid.I.SetPos(CaveGrid.Mod.Cave(nextLoc));
+            MaterialGrid.I.SetPos(GridMod.Cave(nextLoc));
             
             if (--countdownPlaceLight <= 0) {
                 countdownPlaceLight = placeLightEvery;
@@ -36,7 +36,7 @@ public class MapGen : MonoBehaviour {
             }
             if (--countdownChangeBiome <= 0) {
                 countdownChangeBiome = changeBiomeEvery;
-                CaveGrid.Biome.Next(nextLoc, (CaveGrid.Biome.lastBiome + 1) % 13 + 1);
+                MaterialGrid.Biome.Next(nextLoc, (MaterialGrid.Biome.lastBiome + 1) % 13 + 1);
             }
         }
     }

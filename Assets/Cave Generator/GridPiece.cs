@@ -50,7 +50,7 @@ public class GridPiece : MonoBehaviour {
             GameObject.Destroy(transform.GetChild(i).gameObject);
         // Sample current level, below, and above
         int level = pos.w;
-        Grid<bool> grid = CaveGrid.I.grid;
+        Grid<bool> grid = MaterialGrid.I.grid;
         GridPos[] hc = pos.HorizCorners;
         int[] data = new int[3];
         for (int i = 0; i < 3; i++) {
@@ -67,10 +67,10 @@ public class GridPiece : MonoBehaviour {
         // Floor/Ground Rule
         if ((data[0] & 2) * (data[1] & 2) * (data[2] & 2) == 8) {
             if ((data[0] & 4) + (data[1] & 4) + (data[2] & 4) == 0) {
-                Create(CaveGrid.I.smooth.floor, level, Random.Range(0, 3), Randoms.CoinFlip, false, Four(3, 4, 5));
+                Create(MaterialGrid.I.shape.floor, level, Random.Range(0, 3), Randoms.CoinFlip, false, Four(3, 4, 5));
             }
             if ((data[0] & 1) + (data[1] & 1) + (data[2] & 1) == 0) {
-                Create(CaveGrid.I.smooth.floor, level, Random.Range(0, 3), Randoms.CoinFlip, true, Four(3, 4, 5));
+                Create(MaterialGrid.I.shape.floor, level, Random.Range(0, 3), Randoms.CoinFlip, true, Four(3, 4, 5));
             }
             return;
         }
@@ -82,16 +82,16 @@ public class GridPiece : MonoBehaviour {
             if (extraCornerValue == -1) { // Something is symmetric
                 if (top2 != -1) {
                     if (lowerBase1 != -1) {
-                        Create(CaveGrid.I.smooth.upperSlope, level, lowerBase1, Randoms.CoinFlip, false, Four(3, 1, 5));
+                        Create(MaterialGrid.I.shape.upperSlope, level, lowerBase1, Randoms.CoinFlip, false, Four(3, 1, 5));
                     } else {
-                        Create(CaveGrid.I.smooth.upperSlope, level, upperBase1, Randoms.CoinFlip, true, Four(3, 1, 5));
+                        Create(MaterialGrid.I.shape.upperSlope, level, upperBase1, Randoms.CoinFlip, true, Four(3, 1, 5));
                     }
                 } else if (lowerBase1 != -1 && upperBase1 != -1) {
                     bool reflect = upperBase1 == NextCorner(top1);
                     bool rotateOnZ = Randoms.CoinFlip;
-                    Create(CaveGrid.I.smooth.tunnelSlopeDouble, level, top1, reflect ^ rotateOnZ, rotateOnZ, Four(6, 4, 2));
+                    Create(MaterialGrid.I.shape.tunnelSlopeDouble, level, top1, reflect ^ rotateOnZ, rotateOnZ, Four(6, 4, 2));
                 } else {
-                    Create(CaveGrid.I.smooth.lowerSlope, level, top1, Randoms.CoinFlip, upperBase2 != -1, Four(0, 4, 2));
+                    Create(MaterialGrid.I.shape.lowerSlope, level, top1, Randoms.CoinFlip, upperBase2 != -1, Four(0, 4, 2));
                 }
             } else {
                 bool yFlip = upperBase1 != -1;
@@ -101,14 +101,14 @@ public class GridPiece : MonoBehaviour {
                 bool topIsThin = data[top1] == 2; // otherwise it's 3
                 // extraCornerValue cannot be 1, 2, or 3, because those are base/top values
                 if (extraCornerValue == 0) {
-                    Create(topIsThin ? CaveGrid.I.smooth.tunnelSlopeLedge : CaveGrid.I.smooth.upperCurve,
+                    Create(topIsThin ? MaterialGrid.I.shape.tunnelSlopeLedge : MaterialGrid.I.shape.upperCurve,
                         level, base1, !baseIsAfterTop, yFlip, Four(3, 1, 0));
                 } else if (extraCornerValue == 4) {
-                    Create(CaveGrid.I.smooth.tunnelCurve, level, base1, !baseIsAfterTop, yFlip, Four(3, 1, 8, 0));
+                    Create(MaterialGrid.I.shape.tunnelCurve, level, base1, !baseIsAfterTop, yFlip, Four(3, 1, 8, 0));
                 } else if (extraCornerValue == 5) {
-                    Create(CaveGrid.I.smooth.tunnelSlope, level, base1, !baseIsAfterTop, yFlip, Four(3, 1, 8, 2));
+                    Create(MaterialGrid.I.shape.tunnelSlope, level, base1, !baseIsAfterTop, yFlip, Four(3, 1, 8, 2));
                 } else { // extraCornerValue == 6 || extraCornerValue == 7
-                    Create(CaveGrid.I.smooth.lowerCurve, level, top1, baseIsAfterTop, yFlip, Four(0, 4, 5, 8));
+                    Create(MaterialGrid.I.shape.lowerCurve, level, top1, baseIsAfterTop, yFlip, Four(0, 4, 5, 8));
                 }
             }
             return;
@@ -131,23 +131,23 @@ public class GridPiece : MonoBehaviour {
         int otherValue = -1;
         if (HasTwo(data, 0, ref otherLoc, ref otherValue)) {
             if (otherValue == 1) {
-                Create(CaveGrid.I.smooth.revcornerGutter, level, otherLoc, Randoms.CoinFlip, yFlip, Four(4));
+                Create(MaterialGrid.I.shape.revcornerGutter, level, otherLoc, Randoms.CoinFlip, yFlip, Four(4));
             } else { // if (otherValue == 3)
-                Create(CaveGrid.I.smooth.revcorner, level, otherLoc, Randoms.CoinFlip, yFlip, Four(4, 7));
+                Create(MaterialGrid.I.shape.revcorner, level, otherLoc, Randoms.CoinFlip, yFlip, Four(4, 7));
             }
         } else if (HasTwo(data, 1, ref otherLoc, ref otherValue)) {
             if (otherValue == 0) {
-                Create(CaveGrid.I.smooth.cornerGutter, level, otherLoc, Randoms.CoinFlip, yFlip, Four(5, 3));
+                Create(MaterialGrid.I.shape.cornerGutter, level, otherLoc, Randoms.CoinFlip, yFlip, Four(5, 3));
             } else { // if (otherValue == 2)
-                Create(CaveGrid.I.smooth.cornerMoulding, level, otherLoc, Randoms.CoinFlip, yFlip, Four(3, 7, 5));
+                Create(MaterialGrid.I.shape.cornerMoulding, level, otherLoc, Randoms.CoinFlip, yFlip, Four(3, 7, 5));
             }
         } else if (HasTwo(data, 2, ref otherLoc, ref otherValue)) {
-            Create(CaveGrid.I.smooth.revcornerMoulding, level, otherLoc, Randoms.CoinFlip, yFlip, Four(6, 4, 8));
+            Create(MaterialGrid.I.shape.revcornerMoulding, level, otherLoc, Randoms.CoinFlip, yFlip, Four(6, 4, 8));
         } else if (HasTwo(data, 3, ref otherLoc, ref otherValue)) {
             if (otherValue == 0) {
-                Create(CaveGrid.I.smooth.corner, level, otherLoc, Randoms.CoinFlip, yFlip, Four(5, 3, 8, 6));
+                Create(MaterialGrid.I.shape.corner, level, otherLoc, Randoms.CoinFlip, yFlip, Four(5, 3, 8, 6));
             } else { // if (otherValue == 2)
-                Create(CaveGrid.I.smooth.cornerMoulding, level, otherLoc, Randoms.CoinFlip, yFlip, Four(3, 7, 5));
+                Create(MaterialGrid.I.shape.cornerMoulding, level, otherLoc, Randoms.CoinFlip, yFlip, Four(3, 7, 5));
             }
         } else { // data is 3 different numbers in range [0, 3]
             int sum = data[0] + data[1] + data[2]; // sum is in [3, 6]
@@ -156,13 +156,13 @@ public class GridPiece : MonoBehaviour {
             int xValue = (sum - 1) % 4; // the values at x = -1 in the .blend: 2, 3, 0, ?
             bool xFlip = sum != 6 && data[(pivot + 2) % 3] == xValue; // found it at x = 1
             if (sum == 3) {
-                Create(CaveGrid.I.smooth.tunnelPillarSlant, level, pivot, xFlip, yFlip, Four(8, 3));
+                Create(MaterialGrid.I.shape.tunnelPillarSlant, level, pivot, xFlip, yFlip, Four(8, 3));
             } else if (sum == 4) {
-                Create(CaveGrid.I.smooth.endGutter, level, pivot, xFlip, yFlip, Four(5, 4, 8));
+                Create(MaterialGrid.I.shape.endGutter, level, pivot, xFlip, yFlip, Four(5, 4, 8));
             } else if (sum == 5) {
-                Create(CaveGrid.I.smooth.endMoulding, level, pivot, xFlip, yFlip, Four(3, 7, 6));
+                Create(MaterialGrid.I.shape.endMoulding, level, pivot, xFlip, yFlip, Four(3, 7, 6));
             } else {
-                Create(CaveGrid.I.smooth.cornerMoulding, level, pivot, Randoms.CoinFlip, yFlip, Four(3, 7, 5));
+                Create(MaterialGrid.I.shape.cornerMoulding, level, pivot, Randoms.CoinFlip, yFlip, Four(3, 7, 5));
             }
         }
     }
@@ -267,7 +267,7 @@ public class GridPiece : MonoBehaviour {
         int[] sources = new int[] {map[origSources[0] + 1], map[origSources[1] + 1], map[origSources[2] + 1], map[origSources[3] + 1]};
         Transform newPiece = GameObject.Instantiate(prefab, transform).transform;
         newPiece.localRotation = Quaternion.Euler(0, yRot, 0);
-        newPiece.localScale = Vector3.Scale(new Vector3(xFlip ? -1 : 1, yFlip ? -0.5f : 0.5f, 1), CaveGrid.I.scale);
+        newPiece.localScale = Vector3.Scale(new Vector3(xFlip ? -1 : 1, yFlip ? -0.5f : 0.5f, 1), MaterialGrid.I.scale);
         SetMaterial(newPiece, sources);
         return newPiece;
     }
@@ -280,15 +280,14 @@ public class GridPiece : MonoBehaviour {
         return result;
     }
 
-    private bool SetSoftMaterial(Transform newPiece) {
+    private bool SetDifferentMaterial(Transform newPiece, Material material) {
         List<GridPos> softPos = new List<GridPos>();
         foreach (GridPos gridPos in pos.HorizCorners) {
-            if (CaveGrid.I.soft[gridPos]) softPos.Add(gridPos);
-            if (CaveGrid.I.soft[gridPos - GridPos.up]) softPos.Add(gridPos - GridPos.up);
+            softPos.Add(gridPos);
         }
         if (softPos.Count >= 1) {
             foreach (MeshRenderer renderer in newPiece.GetComponentsInChildren<MeshRenderer>())
-                renderer.material = CaveGrid.I.softMaterial;
+                renderer.material = material;
             // Debug.Log("Set children to soft in " + gameObject);
             MeshCollider[] childColliders = GetComponentsInChildren<MeshCollider>();
             foreach (MeshCollider childCollider in childColliders) {
@@ -305,10 +304,9 @@ public class GridPiece : MonoBehaviour {
     }
 
     private void SetMaterial(Transform newPiece, int[] src) {
-        if (SetSoftMaterial(newPiece)) return;
         // Better not to make a new material — this is the current bottleneck.
         // 0.3 ms * 18 TriPoses * 2 Sets * 21 largest diamter = 200ms
-        Material material = new Material(CaveGrid.I.defaultMaterial);
+        Material material = new Material(MaterialGrid.I.defaultMaterial);
         material.SetColor("_Color1", GetFloorColor(src[0]));
         material.SetColor("_Color2", GetFloorColor(src[1]));
         material.SetColor("_Color3", GetFloorColor(src[2]));
@@ -322,15 +320,15 @@ public class GridPiece : MonoBehaviour {
 
     // for sourceId [-1, 8] value origins see int[] map in GridPiece.Create()
     private Color GetFloorColor(int sourceId) {
-        if (sourceId == -1) return CaveGrid.Biome.DefaultFloor;
+        if (sourceId == -1) return MaterialGrid.Biome.DefaultFloor;
         int corner = sourceId % 3;
         int yOffset = sourceId / 3 - 1;
-        return CaveGrid.Biome.GetFloor(pos.HorizCorners[corner] + GridPos.up * yOffset);
+        return MaterialGrid.Biome.GetFloor(pos.HorizCorners[corner] + GridPos.up * yOffset);
     }
     private Color GetWallColor(int sourceId) {
-        if (sourceId == -1) return CaveGrid.Biome.DefaultWall;
+        if (sourceId == -1) return MaterialGrid.Biome.DefaultWall;
         int corner = sourceId % 3;
         int yOffset = sourceId / 3 - 1;
-        return CaveGrid.Biome.GetWall(pos.HorizCorners[corner] + GridPos.up * yOffset);
+        return MaterialGrid.Biome.GetWall(pos.HorizCorners[corner] + GridPos.up * yOffset);
     }
 }
