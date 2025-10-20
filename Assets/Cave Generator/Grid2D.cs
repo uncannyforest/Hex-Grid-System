@@ -10,27 +10,33 @@ public class Grid2D<T> {
         new List<List<T>>()}; // x
 
     private T get2D(List<List<T>> list2d, int x, int y) {
-        if (list2d.Count <= y) return default(T);
+        if (list2d.Count <= y) return default;
         List<T> list = list2d[y];
-        if (list.Count <= x) return default(T);
+        if (list.Count <= x) return default;
         return list[x];
     }
 
     private void set2D(List<List<T>> list2d, int x, int y, T value) {
         while (list2d.Count <= y) list2d.Add(new List<T>());
         List<T> list = list2d[y];
-        while (list.Count <= x) list.Add(default(T));
+        while (list.Count <= x) list.Add(default);
         list[x] = value;
     }
 
-    private void ThrowIfLarge(Vector2Int pos) {
+    private void ThrowIfLarge(GridPos pos) {
         if (1000_000 <= pos.x || 1000_000 <= pos.y
                 || 1000_000 <= -pos.x || 1000_000 <= -pos.y)
             throw new ArgumentOutOfRangeException("Huge GridPos " + pos);
     }
 
-    public T this[Vector2Int pos] {
+    private void ThrowIf3D(GridPos pos) {
+        if (pos.w != 0)
+            throw new ArgumentOutOfRangeException("GridPos.w is not 0" + pos);
+    }
+
+    public T this[GridPos pos] {
         get {
+            ThrowIf3D(pos);
             ThrowIfLarge(pos);
             int xIndex = pos.x >= 0 ? pos.x : -1 - pos.x;
             int yIndex = pos.y >= 0 ? pos.y : -1 - pos.y;
@@ -39,6 +45,7 @@ public class Grid2D<T> {
             return get2D(quads[quadIndex], xIndex, yIndex);
         }
         set {
+            ThrowIf3D(pos);
             ThrowIfLarge(pos);
             int xIndex = pos.x >= 0 ? pos.x : -1 - pos.x;
             int yIndex = pos.y >= 0 ? pos.y : -1 - pos.y;

@@ -15,7 +15,7 @@ public class Biomes : MonoBehaviour {
     public Color[] walls; // 0 is default: ignore
     public Biome[] decor;
 
-    private Grid<int> grid = new Grid<int>();
+    private Grid3D<int> grid = new Grid3D<int>();
 
     public int lastBiome = 0;
 

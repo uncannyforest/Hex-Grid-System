@@ -6,19 +6,19 @@ public class MapGen : MonoBehaviour {
     public int changeBiomeEvery = 12;
     public GameObject lightToPlace;
     public Transform lightParent;
+    public float elevationChangeRate = .5f;
 
     private GridPos prevLoc;
     private GridPos nextLoc;
-    private float progress = 1;
+    private float progress = 0;
     private int countdownPlaceLight = 1;
-    private int countdownChangeBiome = 1;
+
+    private bool wasAboveGround = false;
 
     void Start() {
-        prevLoc = GridPos.zero;
-        nextLoc = GridPos.zero;
-        MaterialGrid.Biome.Next(GridPos.zero, 1);
-        MaterialGrid.I.SetPos(GridMod.Cave(nextLoc));
-        countdownChangeBiome = changeBiomeEvery;
+        prevLoc = -GridPos.up;
+        nextLoc = -GridPos.up;
+        new GridMod(nextLoc, Block.AIR).Commit();
     }
 
     void Update() {
@@ -27,16 +27,17 @@ public class MapGen : MonoBehaviour {
         if (progress >= 1) {
             progress -= 1;
             prevLoc = nextLoc;
-            nextLoc = nextLoc.RandomDeviation();
-            MaterialGrid.I.SetPos(GridMod.Cave(nextLoc));
+            nextLoc = nextLoc.RandomDeviation(elevationChangeRate);
+            Block materialType = wasAboveGround ? Block.DIRT : Block.AIR;
+            GridMod mod = nextLoc.w == prevLoc.w ? new GridMod(nextLoc, materialType)
+                : nextLoc.w < prevLoc.w ? new GridMod(nextLoc, materialType, 2)
+                : new GridMod(nextLoc - GridPos.up, materialType, 2);
+            mod.Commit();
+            wasAboveGround = nextLoc.w >= 0;
             
             if (--countdownPlaceLight <= 0) {
                 countdownPlaceLight = placeLightEvery;
                 GameObject.Instantiate(lightToPlace, transform.position, Quaternion.identity, lightParent);
-            }
-            if (--countdownChangeBiome <= 0) {
-                countdownChangeBiome = changeBiomeEvery;
-                MaterialGrid.Biome.Next(nextLoc, (MaterialGrid.Biome.lastBiome + 1) % 13 + 1);
             }
         }
     }

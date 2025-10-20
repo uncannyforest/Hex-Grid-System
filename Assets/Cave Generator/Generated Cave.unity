@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: a0b57fab1b7ec411a9a1eaae05d4b725, type: 2}
+  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0
   m_CustomReflection: {fileID: 8900000, guid: 746f27d4a0d8349a5b2ce5dbec144808, type: 3}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 0}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -152,11 +152,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 353c586318ac04cb095688088682db10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modRate: 1
+  modRate: 0.25
   placeLightEvery: 12
   changeBiomeEvery: 12
   lightToPlace: {fileID: 7130582234354562386, guid: ee3754029a04e4ef6bd286453b37eae7, type: 3}
   lightParent: {fileID: 1093609803}
+  elevationChangeRate: 0.16666667
 --- !u!4 &988238816
 Transform:
   m_ObjectHideFlags: 0
@@ -210,6 +211,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7757260547586297443, guid: 72cc7c37aacfa4ce6828d6c568b182f2, type: 3}
+      propertyPath: m_ClearFlags
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7757260547586789475, guid: 72cc7c37aacfa4ce6828d6c568b182f2, type: 3}
       propertyPath: m_LocalPosition.y
       value: 1

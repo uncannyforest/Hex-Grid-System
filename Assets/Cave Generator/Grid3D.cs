@@ -31,28 +31,28 @@ public class Grid3D<T> {
         list[x] = value;
     }
 
-    private void ThrowIfLarge(Vector3Int pos) {
-        if (1000_000 <= pos.x || 1000_000 <= pos.y || 1000_000 <= pos.z
-                || 1000_000 <= -pos.x || 1000_000 <= -pos.y || 1000_000 <= -pos.z)
+    private void ThrowIfLarge(GridPos pos) {
+        if (1000_000 <= pos.x || 1000_000 <= pos.y || 1000_000 <= pos.w
+                || 1000_000 <= -pos.x || 1000_000 <= -pos.y || 1000_000 <= -pos.w)
             throw new ArgumentOutOfRangeException("Huge GridPos " + pos);
     }
 
-    public T this[Vector3Int pos] {
+    public T this[GridPos pos] {
         get {
             ThrowIfLarge(pos);
             int xIndex = pos.x >= 0 ? pos.x : -1 - pos.x;
             int yIndex = pos.y >= 0 ? pos.y : -1 - pos.y;
-            int zIndex = pos.z >= 0 ? pos.z : -1 - pos.z;
+            int zIndex = pos.w >= 0 ? pos.w : -1 - pos.w;
             int quadIndex = pos.x >= 0 ? 1 : 0;
             if (pos.y >= 0) quadIndex = 3 - quadIndex;
-            if (pos.z >= 0) quadIndex = 7 - quadIndex;
+            if (pos.w >= 0) quadIndex = 7 - quadIndex;
             return get3D(quads[quadIndex], xIndex, yIndex, zIndex);
         }
         set {
             ThrowIfLarge(pos);
             int xIndex = pos.x >= 0 ? pos.x : -1 - pos.x;
             int yIndex = pos.y >= 0 ? pos.y : -1 - pos.y;
-            int zIndex = pos.z >= 0 ? pos.z : -1 - pos.z;
+            int zIndex = pos.w >= 0 ? pos.w : -1 - pos.w;
             if (xIndex > xMax) xMax = xIndex;
             if (yIndex > yMax) yMax = yIndex;
             if (zIndex > zMax) zMax = zIndex;
@@ -61,7 +61,7 @@ public class Grid3D<T> {
             if (zIndex < zMin) zMin = zIndex;
             int quadIndex = pos.x >= 0 ? 1 : 0;
             if (pos.y >= 0) quadIndex = 3 - quadIndex;
-            if (pos.z >= 0) quadIndex = 7 - quadIndex;
+            if (pos.w >= 0) quadIndex = 7 - quadIndex;
             set3D(quads[quadIndex], xIndex, yIndex, zIndex, value);
         }
     }

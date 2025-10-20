@@ -117,10 +117,10 @@ public struct GridPos  {
         else throw new InvalidOperationException("Not unit hex: " + ToString());
     }
 
-    public static float WorldHorizScale = MaterialGrid.Scale.z * 2;
-    public Vector3 World { get => Vector3.Scale(MaterialGrid.Scale, new Vector3(x * SQRT3, w, y * 2 + x)); }
+    public static float WorldHorizScale = WorldGrid.Scale.z * 2;
+    public Vector3 World { get => Vector3.Scale(WorldGrid.Scale, new Vector3(x * SQRT3, w, y * 2 + x)); }
     public static GridPos FromWorld(Vector3 worldCoord) {
-        Vector3 coord = worldCoord.ScaleDivide(MaterialGrid.Scale);
+        Vector3 coord = worldCoord.ScaleDivide(WorldGrid.Scale);
         int w = Mathf.RoundToInt(coord.y);
         float fX = coord.x / SQRT3;
         float fY = (Quaternion.Euler(0, 120, 0) * coord).x / SQRT3;
@@ -204,9 +204,10 @@ public struct GridPos  {
 
     public static GridPos RandomHoriz() => Units[UnityEngine.Random.Range(0, 6)];
 
-    public GridPos RandomDeviation() {
-        if (UnityEngine.Random.value < .75f) return this + RandomHoriz(Vector3.zero);
-        else return this + (Randoms.CoinFlip ? GridPos.up : -GridPos.up);
+    public GridPos RandomDeviation(float elevationChangeRate) {
+        GridPos result = this + RandomHoriz(Vector3.zero);
+        if (UnityEngine.Random.value < elevationChangeRate) result += Randoms.CoinFlip ? GridPos.up : -GridPos.up;
+        return result;
     }
 
     public GridPos RandomHorizDeviation(Vector3 bias) {
