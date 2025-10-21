@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb46c40967cb6460697de4571f7f7852, type: 3}
+  m_Name: Smooth Simple
+  m_EditorClassIdentifier: 
+  floor: {fileID: 2550463727306718371, guid: 8c88e8bbb22d14390a0ea99315a8a2ee, type: 3}
+  revcorner: {fileID: 8124854992641687857, guid: 8c88e8bbb22d14390a0ea99315a8a2ee, type: 3}
+  corner: {fileID: -3807485315920446229, guid: 8c88e8bbb22d14390a0ea99315a8a2ee, type: 3}
+  revcornerMoulding: {fileID: 8842036541108573873, guid: 8c88e8bbb22d14390a0ea99315a8a2ee, type: 3}
+  revcornerGutter: {fileID: -4828889266262801256, guid: 8c88e8bbb22d14390a0ea99315a8a2ee, type: 3}
+  cornerMoulding: {fileID: 4081248524325575128, guid: 8c88e8bbb22d14390a0ea99315a8a2ee, type: 3}
+  cornerGutter: {fileID: -456511365516288333, guid: 8c88e8bbb22d14390a0ea99315a8a2ee, type: 3}
+  lowerSlope: {fileID: -1765129595556838872, guid: 8c88e8bbb22d14390a0ea99315a8a2ee, type: 3}
+  upperSlope: {fileID: -8166795947304997724, guid: 8c88e8bbb22d14390a0ea99315a8a2ee, type: 3}
+  lowerCurve: {fileID: -7430774708922009496, guid: 8c88e8bbb22d14390a0ea99315a8a2ee, type: 3}
+  upperCurve: {fileID: 525806475549138430, guid: 8c88e8bbb22d14390a0ea99315a8a2ee, type: 3}
+  endMoulding: {fileID: 6102064962777819904, guid: 8c88e8bbb22d14390a0ea99315a8a2ee, type: 3}
+  endGutter: {fileID: -2979216932277808645, guid: 8c88e8bbb22d14390a0ea99315a8a2ee, type: 3}
+  tunnelPillarSlant: {fileID: -691233823923292195, guid: 8c88e8bbb22d14390a0ea99315a8a2ee, type: 3}
+  tunnelCurve: {fileID: 7092862972380977203, guid: 8c88e8bbb22d14390a0ea99315a8a2ee, type: 3}
+  tunnelSlope: {fileID: 6825799450859926458, guid: 8c88e8bbb22d14390a0ea99315a8a2ee, type: 3}
+  tunnelSlopeDouble: {fileID: 8729119094225559908, guid: 8c88e8bbb22d14390a0ea99315a8a2ee, type: 3}
+  tunnelSlopeLedge: {fileID: -2729866107481252225, guid: 8c88e8bbb22d14390a0ea99315a8a2ee, type: 3}
