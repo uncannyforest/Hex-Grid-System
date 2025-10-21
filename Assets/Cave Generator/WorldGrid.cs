@@ -41,6 +41,7 @@ public class WorldGrid : MonoBehaviour {
     }
 
     public void Set(GridMod mod) {
+        if (mod.IsUnnecessary) return;
         ForceSetPos(mod);
         if (mod.materialType == Block.AIR) MakeDust(mod.pos, 0, mod.height - 1, true);
     }

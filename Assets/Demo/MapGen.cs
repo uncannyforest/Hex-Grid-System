@@ -12,6 +12,8 @@ public class MapGen : MonoBehaviour {
     private GridPos nextLoc;
     private float progress = 0;
     private int countdownPlaceLight = 1;
+    private float width = 1;
+    private int height = 1;
 
     private bool wasAboveGround = false;
 
@@ -26,19 +28,38 @@ public class MapGen : MonoBehaviour {
         progress += Time.deltaTime / modRate;
         if (progress >= 1) {
             progress -= 1;
-            prevLoc = nextLoc;
-            nextLoc = nextLoc.RandomDeviation(elevationChangeRate);
-            Block materialType = wasAboveGround ? Block.DIRT : Block.AIR;
-            GridMod mod = nextLoc.w == prevLoc.w ? new GridMod(nextLoc, materialType)
-                : nextLoc.w < prevLoc.w ? new GridMod(nextLoc, materialType, 2)
-                : new GridMod(nextLoc - GridPos.up, materialType, 2);
-            mod.Commit();
-            wasAboveGround = nextLoc.w >= 0;
-            
+            NextStep();
+
             if (--countdownPlaceLight <= 0) {
                 countdownPlaceLight = placeLightEvery;
                 GameObject.Instantiate(lightToPlace, transform.position, Quaternion.identity, lightParent);
             }
         }
+    }
+
+    private void NextStep() {
+        prevLoc = nextLoc;
+        float deltaWidth = Randoms.CoinFlip ? 0 : 1 / width - Random.value;
+        int deltaHeight = Randoms.CoinFlip ? 0 : Random.value < 1f / height ? 1 : -1;
+        width += deltaWidth;
+        height += deltaHeight;
+        Debug.Log("height: " + height + " width: " + width );
+
+        if (deltaHeight == 0) nextLoc = nextLoc.RandomDeviation(elevationChangeRate);
+        else {
+            nextLoc = nextLoc.RandomDeviation(0);
+            if (Randoms.CoinFlip) nextLoc -= GridPos.up * deltaHeight;
+        }
+
+        Block materialType = wasAboveGround ? Block.DIRT : Block.AIR;
+
+        for (int i = 0; i < width; i++)
+            foreach (GridPos rel in GridPos.ListAllWithMagnitude(i)) 
+                if (i < width - 1 || Random.value < width - i) {
+            GridMod mod = new GridMod(nextLoc + rel, materialType, height);
+            mod.Commit();
+        }
+
+        wasAboveGround = nextLoc.w + height >= 1;
     }
 }

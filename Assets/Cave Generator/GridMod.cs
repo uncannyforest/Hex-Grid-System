@@ -15,7 +15,7 @@ public struct GridMod {
     public bool IsUnnecessary {
         get {
             bool result = true;
-            for (int i = 0; i <= height; i++)
+            for (int i = 0; i < height; i++)
                 if (WorldGrid.I.grid[pos + i * GridPos.up] != materialType)
                     result = false;
             return result;
@@ -25,7 +25,7 @@ public struct GridMod {
     public bool Overlaps {
         get {
             bool result = false;
-            for (int i = 0; i <= height; i++)
+            for (int i = 0; i < height; i++)
                 if (WorldGrid.I.grid[pos + i * GridPos.up] == materialType)
                     result = true;
             return result;

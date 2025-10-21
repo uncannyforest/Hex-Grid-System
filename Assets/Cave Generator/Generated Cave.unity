@@ -152,8 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 353c586318ac04cb095688088682db10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modRate: 0.25
-  placeLightEvery: 12
+  modRate: 0.5
+  placeLightEvery: 36
   changeBiomeEvery: 12
   lightToPlace: {fileID: 7130582234354562386, guid: ee3754029a04e4ef6bd286453b37eae7, type: 3}
   lightParent: {fileID: 1093609803}
@@ -603,15 +603,15 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: b953a225e355f4ff78582c01527f0320, type: 2}
     - target: {fileID: 7904802317041023630, guid: a7867abca83d04791a1dc21a45e76d07, type: 3}
       propertyPath: scale.x
-      value: 0.9
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 7904802317041023630, guid: a7867abca83d04791a1dc21a45e76d07, type: 3}
       propertyPath: scale.y
-      value: 1.8
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 7904802317041023630, guid: a7867abca83d04791a1dc21a45e76d07, type: 3}
       propertyPath: scale.z
-      value: 0.9
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 7904802317041023631, guid: a7867abca83d04791a1dc21a45e76d07, type: 3}
       propertyPath: m_Name
