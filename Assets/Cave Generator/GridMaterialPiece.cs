@@ -17,6 +17,11 @@ public class GridMaterialPiece  {
     }
 
     public void Render() {
+        if (shape.useSlope) RenderWithSlope();
+        else RenderNoSlope();
+    }
+
+    public void RenderWithSlope() {
         // Sample current level, below, and above
         int level = gridPiece.pos.w;
         GridPos[] hc = gridPiece.pos.HorizCorners;
@@ -133,6 +138,84 @@ public class GridMaterialPiece  {
                 Create(shape.cornerMoulding, level, pivot, Randoms.CoinFlip, yFlip, Four(3, 7, 5));
             }
         }
+    }
+
+    public void RenderNoSlope() {
+        // Sample current level and above
+        int level = gridPiece.pos.w;
+        GridPos[] hc = gridPiece.pos.HorizCorners;
+        int[] data = new int[3];
+        for (int i = 0; i < 3; i++) {
+            int value = 0;
+            if (GridMaterial.I[material].ShapeAt(hc[i])) value += 1;
+            if (GridMaterial.I[material].ShapeAt(hc[i] + GridPos.up)) value += 2;
+            data[i] = value;
+        }
+        this.data = data[0] * 100 + data[1] * 10 + data[2];
+
+        // Same Rule
+        if (data[0] == data[1] && data[1] == data[2]) {
+            if (data[0] == 1 || data[0] == 2) {
+                Create(shape.floor, level, Random.Range(0, 3), Randoms.CoinFlip, data[0] == 2, Four(3, 4, 5))
+                    .localPosition = Vector3.up;
+            } // otherwise open/closed: render nothing
+            return;
+        }
+
+        Transform t;
+
+        // Two Rule
+        int otherLoc = -1;
+        int otherValue = -1;
+        if (HasTwo(data, 0, ref otherLoc, ref otherValue)) {
+            if (otherValue == 1 || otherValue == 2) {
+                t = Create(shape.revcornerGutter, level, otherLoc, Randoms.CoinFlip, otherValue == 2, Four(4));
+            } else { // if (otherValue == 3)
+                t = Create(shape.revcorner, level, otherLoc, Randoms.CoinFlip, Randoms.CoinFlip, Four(4, 7));
+            }
+        } else if (HasTwo(data, 1, ref otherLoc, ref otherValue)) {
+            if (otherValue == 0) {
+                t = Create(shape.cornerGutter, level, otherLoc, Randoms.CoinFlip, false, Four(5, 3));
+            } else if (otherValue == 2) {
+                t = Create(shape.thinSlope, level, otherLoc, Randoms.CoinFlip, false, Four(3, 7, 5));
+            } else { // if (otherValue == 3)
+                t = Create(shape.revcornerMoulding, level, otherLoc, Randoms.CoinFlip, true, Four(3, 7, 5));
+            }
+        } else if (HasTwo(data, 2, ref otherLoc, ref otherValue)) {
+            if (otherValue == 0) {
+                t = Create(shape.cornerGutter, level, otherLoc, Randoms.CoinFlip, true, Four(5, 3));
+            } else if (otherValue == 1) {
+                t = Create(shape.thinSlope, level, otherLoc, Randoms.CoinFlip, true, Four(3, 7, 5));
+            } else { // if (otherValue == 3)
+                t = Create(shape.revcornerMoulding, level, otherLoc, Randoms.CoinFlip, false, Four(3, 7, 5));
+            }
+        } else if (HasTwo(data, 3, ref otherLoc, ref otherValue)) {
+            if (otherValue == 0) {
+                t = Create(shape.corner, level, otherLoc, Randoms.CoinFlip, Randoms.CoinFlip, Four(5, 3, 8, 6));
+            } else { // if (otherValue == 1 or 2)
+                t = Create(shape.cornerMoulding, level, otherLoc, Randoms.CoinFlip, otherValue == 1, Four(3, 7, 5));
+            }
+        }
+
+        // Different Rule
+        else { // data is 3 different numbers in range [0, 3]
+            int sum = data[0] + data[1] + data[2]; // sum is in [3, 6]
+            int pivotValue = sum - 3; // where the triangle gets split down the middle: 0, 1, 2, 3
+            int pivot = data[0] == pivotValue ? 0 : data[1] == pivotValue ? 1 : 2;
+            int xValue = sum % 3 == 0 ? 2 : 3; // the values at x = -1 in the .blend: 2, 3, 3, 2
+            bool xFlip = data[(pivot + 2) % 3] == xValue; // found it at x = 1
+            if (sum == 3) {
+                bool rotateOnZ = Randoms.CoinFlip;
+                t = Create(shape.tunnelPillarSlant, level, pivot, xFlip ^ rotateOnZ, rotateOnZ, Four(3, 8));
+            } else if (sum == 6) {
+                bool rotateOnZ = Randoms.CoinFlip;
+                t = Create(shape.thinSpiral, level, pivot, xFlip ^ rotateOnZ, rotateOnZ, Four(3, 4, 8, 7));
+            } else {
+                t = Create(shape.end, level, pivot, xFlip, sum == 5, Four(5, 4, 8));
+            }
+        }
+
+        t.localPosition = Vector3.up;
     }
 
     private int NextCorner(int corner) => (corner + 1) % 3;
