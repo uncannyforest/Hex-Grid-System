@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +15,8 @@ public class WorldGrid : MonoBehaviour {
     public Material defaultMaterial;
     public ParticleSystem dustPrefab;
     public ParticleSystem undustPrefab;
+
+    public Action<GridPos, int> PosUpdated;
 
     public SurfaceGrid grid = new SurfaceGrid();
     public static SurfaceGrid Grid { get => instance.grid; }
@@ -50,6 +53,7 @@ public class WorldGrid : MonoBehaviour {
         for (int i = 0; i < mod.height; i++)
             grid[mod.pos + GridPos.up * i] = mod.materialType;
         UpdateRenderPos(mod.pos, -1, mod.height);
+        if (PosUpdated != null) PosUpdated(mod.pos, mod.height);
     }
 
     private void MakeDust(GridPos pos, int relMinUpdated, int relMaxUpdated, bool open) {

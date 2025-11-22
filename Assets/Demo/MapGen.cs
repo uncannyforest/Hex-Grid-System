@@ -43,7 +43,7 @@ public class MapGen : MonoBehaviour {
         int deltaHeight = Randoms.CoinFlip ? 0 : Random.value < 1f / height ? 1 : -1;
         width += deltaWidth;
         height += deltaHeight;
-        Debug.Log("height: " + height + " width: " + width );
+        // Debug.Log("height: " + height + " width: " + width );
 
         if (deltaHeight == 0) nextLoc = nextLoc.RandomDeviation(elevationChangeRate);
         else {

@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1994365914435643231
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3024164735022303646}
+  - component: {fileID: 4172108516498403895}
+  - component: {fileID: 1789420223798933654}
+  m_Layer: 0
+  m_Name: Terraforming Grid
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3024164735022303646
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994365914435643231}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4172108516498403895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994365914435643231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfdd2d839f0a94db491af289471509a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1172606302204003916, guid: 1d4b843e236e149bbaa0ef8367df5efa, type: 3}
+  horiz: {fileID: 6651948183067089922, guid: dfc22a861493340fba460e2a3fa7341b, type: 3}
+  vert: {fileID: 5113690569144049504, guid: ec4638c94ccba4a069f5cdb92dc4add2, type: 3}
+--- !u!114 &1789420223798933654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994365914435643231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 512a9055e3e8f4432a6bb97678db28db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 3
+  verticalHighlight: {fileID: 3121438275367718909, guid: e129eb39777494c93a6b097bca0243df, type: 3}
+  horizontalHighlight: {fileID: 3121438275367718909, guid: f89f51fbf66ae418eb2758cfdb7b398d, type: 3}
+  highlightOffset: 0.08333335
