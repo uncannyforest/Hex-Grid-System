@@ -2,6 +2,8 @@
 
 This is a library (& demo) for smoothed block tiles on a 3D hexagonal grid.  Like Minecraft, except hexagonal prims and smoothed blocks.
 
+This library is used in my released game [Aquifer Ascent](https://github.com/uncannyforest/Aquifer-Ascent).
+
 ## Features 
 
 - Set surface elevation level or manually set solid/air blocks at any point above or below surface
